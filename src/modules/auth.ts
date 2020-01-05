@@ -1,39 +1,40 @@
 //액션 type 선언
-const INCREASE = 'counter/INCREASE' as const;
-const DECREASE = 'counter/DECREASE' as const;
-const INCREASE_BY = 'counter/INCREASE_BY' as const;
+const SET = 'auth/SET' as const;
+const REMOVE = 'auth/REMOVE' as const;
 
 //액션 생성 함수 선언
-export const increase = () => ({ type: INCREASE });
-export const decrease = () => ({ type: DECREASE });
-export const increaseBy = (diff: number) => ({ type: INCREASE_BY, payload: diff });
+export const set = (input: AuthState) => ({ type: SET, newAuth: input });
+export const remove = () => ({ type: REMOVE });
 
 //리듀서 type 지정
-type CounterAction =
-    | ReturnType<typeof increase>
-    | ReturnType<typeof decrease>
-    | ReturnType<typeof increaseBy>;
+type AuthAction =
+    | ReturnType<typeof set>
+    | ReturnType<typeof remove>;
 
-type CounterState = {
-    count: number;
+type LoginType = 'facebook' | 'kakao' | 'phone' | undefined;
+
+type AuthState = {
+    id: string | undefined;
+    pw: string | undefined;
+    loginType: LoginType;
 }
 
-const initialState: CounterState = {
-    count: 0
+const initialState: AuthState = {
+    id: undefined,
+    pw: undefined,
+    loginType: undefined
 };
 
 //리듀서
-function counter(state: CounterState = initialState, action: CounterAction): CounterState {
+function auth(state: AuthState = initialState, action: AuthAction): AuthState {
     switch (action.type) {
-        case INCREASE:
-            return { count: state.count + 1 };
-        case DECREASE:
-            return { count: state.count - 1 };
-        case INCREASE_BY:
-            return { count: state.count + action.payload };
+        case SET:
+            return action.newAuth;
+        case REMOVE:
+            return initialState;
         default:
             return state;
     }
 }
 
-export default counter;
+export default auth;
