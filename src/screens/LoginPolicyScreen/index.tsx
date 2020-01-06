@@ -22,7 +22,7 @@ const LoginPolicyScreen = () => {
             <TouchableWithoutFeedback
                 style={{ marginTop: 20 }}
                 onPress={() => {
-                    navigation.navigate('LoginPhoneScreen')
+                    navigation.navigate('LoginPWScreen')
                 }}
             >
                 <Text>계속하기</Text>

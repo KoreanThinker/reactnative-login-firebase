@@ -1,20 +1,18 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../modules';
-import { increase, decrease, increaseBy } from '../modules/auth';
+import { set, remove, AuthState } from '../modules/auth';
 import { useCallback } from 'react';
 
 export default function useCounter() {
-    const count = useSelector((state: RootState) => state.auth.count);
+    const authData = useSelector((state: RootState) => state.auth);
     const dispatch = useDispatch();
 
-    const onIncrease = useCallback(() => dispatch(increase()), [dispatch]);
-    const onDecrease = useCallback(() => dispatch(decrease()), [dispatch]);
-    const onIncreaseBy = useCallback((diff: number) => dispatch(increaseBy(diff)), [dispatch]);
+    const setAuth = useCallback((input: AuthState) => dispatch(set(input)), [dispatch]);
+    const removeAuth = useCallback(() => dispatch(remove()), [dispatch]);
 
     return {
-        count,
-        onIncrease,
-        onDecrease,
-        onIncreaseBy
+        authData,
+        setAuth,
+        removeAuth
     };
 }

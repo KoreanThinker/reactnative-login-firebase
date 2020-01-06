@@ -3,19 +3,36 @@ import { View, Text, StatusBar, TextInput } from 'react-native'
 import { useNavigation } from '../../hooks/useNavigation';
 import styles from '../../components/styles';
 import { BaseButton, TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import useAuth from '../../hooks/useAuth';
+// import facebookLogin from '../../components/facebookLogin';
 
 const boxMargin = 20;
 const boxWidth = styles.WIDTH - (boxMargin * 2);
 
 const LoginScreen = () => {
     const navigation = useNavigation();
+    const { setAuth, authData } = useAuth();
 
     const kakao = () => {
-
+        setAuth({
+            ...authData,
+            loginType: 'kakao'
+        })
     }
 
-    const facebook = () => {
-
+    const facebook = async () => {
+        setAuth({
+            ...authData,
+            loginType: 'facebook'
+        })
+        // facebookLogin();
+    }
+    const signUpPhone = () => {
+        setAuth({
+            ...authData,
+            loginType: 'phone'
+        })
+        navigation.navigate('LoginPolicyScreen')
     }
 
     return (
@@ -56,9 +73,7 @@ const LoginScreen = () => {
                 {/* 전화번호 */}
                 <TouchableWithoutFeedback
                     style={{ alignSelf: 'center', height: 50, justifyContent: 'center', marginBottom: 40 }}
-                    onPress={() => {
-                        navigation.navigate('LoginPolicyScreen');
-                    }}
+                    onPress={signUpPhone}
                 >
                     <Text>휴대폰번호로 가입하기</Text>
                 </TouchableWithoutFeedback>

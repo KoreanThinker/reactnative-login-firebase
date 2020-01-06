@@ -3,16 +3,20 @@ import { View, Text, TextInput } from 'react-native'
 import { useNavigation } from '../../hooks/useNavigation'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import sendSMS from '../../components/sendSMS';
+import useAuth from '../../hooks/useAuth';
 /*
 * 폰 인증
 * 인증 성공시 PWScreen으로 넘어감
 */
 const LoginPhoneScreen = () => {
     const navigation = useNavigation();
+    const { setAuth, authData } = useAuth();
+
     const [phoneNumber, setPhoneNumber] = useState('');
     const [requedsted, setRequested] = useState(false);
     const [userTypedNum, setUserTypedNum] = useState('');
     const [vertifyNum, setVertifyNum] = useState(0)
+
 
     const requsetNumber = async () => {
         setRequested(true);
@@ -22,6 +26,7 @@ const LoginPhoneScreen = () => {
     }
     const next = () => {
         if (!requedsted) return;
+        setAuth({ ...authData, phoneNumber: phoneNumber });
         if (userTypedNum === vertifyNum.toString()) navigation.navigate('LoginPWScreen');
     }
 

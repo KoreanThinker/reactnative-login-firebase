@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { View, Text } from 'react-native'
-import useAuth from '../../hooks/useAuth';
 import { useNavigation } from '../../hooks/useNavigation';
 import { BaseButton } from 'react-native-gesture-handler';
 import { StackActions, NavigationActions } from 'react-navigation';
@@ -27,7 +26,6 @@ const HomeScreen = () => {
         const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
         return subscriber; // unsubscribe on unmount
     }, []);
-
 
     const login = () => {
         navigation.dispatch(resetAction);

@@ -12,13 +12,14 @@ const persistConfig = {
 };
 
 const rootReducer = combineReducers({
-    auth: persistReducer(persistConfig, auth),
+    // auth: persistReducer(persistConfig, auth),
+    auth
 })
 
 export type RootState = ReturnType<typeof rootReducer>;
 
 export default function configureStore() {
     const store = createStore(rootReducer);
-    const persistor = persistStore(store);
-    return { store, persistor };
+    // const persistor = persistStore(store);
+    return { store };
 };
