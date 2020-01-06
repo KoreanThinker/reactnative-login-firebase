@@ -31,6 +31,12 @@ const LoginScreen = () => {
                 //처리 (토스트메시지정도)
             })
     }
+    const forgotPW = () => {
+        auth().sendPasswordResetEmail(email)
+            .then(() => console.log('성공'))
+            .catch(e => console.log(e));
+        // screen 따로 만들어서 delay 도 넣자
+    }
 
     const kakao = () => {
         setAuth({
@@ -85,7 +91,9 @@ const LoginScreen = () => {
                 </BaseButton>
             </View>
 
-            <TouchableWithoutFeedback style={{ alignSelf: 'center', marginTop: 10 }}>
+            <TouchableWithoutFeedback
+                onPress={forgotPW}
+                style={{ alignSelf: 'center', marginTop: 10 }}>
                 <Text>비밀번호 찾기</Text>
             </TouchableWithoutFeedback>
             {/* 로그인 옵션들 */}
