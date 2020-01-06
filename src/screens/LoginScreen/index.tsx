@@ -99,7 +99,9 @@ const LoginScreen = () => {
             {/* 로그인 옵션들 */}
             <View style={{ width: '100%', bottom: 0, left: 0, right: 0, position: 'absolute' }}>
                 {/* 카카오 */}
-                <TouchableWithoutFeedback style={{ backgroundColor: 'yellow', marginBottom: 10, width: boxWidth, marginHorizontal: boxMargin, height: 50, alignItems: 'center', justifyContent: 'center', ...styles.shadow }}>
+                <TouchableWithoutFeedback
+                    onPress={kakao}
+                    style={{ backgroundColor: 'yellow', marginBottom: 10, width: boxWidth, marginHorizontal: boxMargin, height: 50, alignItems: 'center', justifyContent: 'center', ...styles.shadow }}>
                     <Text style={{ color: '#000', fontSize: 16 }}>카카오톡으로 시작하기</Text>
                 </TouchableWithoutFeedback>
                 {/* 페북 */}

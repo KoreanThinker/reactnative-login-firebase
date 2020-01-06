@@ -1,5 +1,4 @@
-import { LoginManager } from 'react-native-fbsdk';
-import { AccessToken } from 'react-native-fbsdk';
+import { LoginManager, AccessToken } from 'react-native-fbsdk';
 import { firebase } from '@react-native-firebase/auth';
 
 

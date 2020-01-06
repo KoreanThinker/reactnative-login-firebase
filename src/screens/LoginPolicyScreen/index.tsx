@@ -5,6 +5,7 @@ import styles from '../../components/styles';
 import { BaseButton, TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import useAuth from '../../hooks/useAuth';
 import facebookLogin from '../../components/facebookLogin';
+import kakaoLogin from '../../components/kakaoLogin';
 import { reset2Home } from '../../components/navigationResetActions'
 /*
  * 약관 자세희 보기 하면 link를 http로 통신해서 markdown으로 로드하자
@@ -29,7 +30,13 @@ const LoginPolicyScreen = () => {
             case 'facebook':
                 navigation.goBack();
                 facebookLogin()
-                    .then(res => navigation.dispatch(reset2Home))
+                    .then(() => navigation.dispatch(reset2Home))
+                    .catch(e => console.error(e));
+                break;
+            case 'kakao':
+                navigation.goBack();
+                kakaoLogin()
+                    .then(() => navigation.dispatch(reset2Home))
                     .catch(e => console.error(e));
                 break;
             default:

@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">testLogin</string>
     <string name="facebook_app_id">516735782383195</string>
+    <string name="kakao_app_key">d4e2a01bf21bbb591eecbb5f44bc52bb</string>
 </resources>

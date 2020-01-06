@@ -29,15 +29,14 @@ const HomeScreen = () => {
         auth().signOut()
             .then(() => navigation.dispatch(reset2Login))
             .catch(e => {
-
+                console.log(e)
             })
     }
 
     return (
         initializing
             ?
-            <View style={{ backgroundColor: 'red', flex: 1 }
-            } />
+            <View style={{ backgroundColor: 'red', flex: 1 }} />
             :
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                 <BaseButton
