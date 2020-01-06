@@ -1,10 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { View, Text, StatusBar, TextInput } from 'react-native'
 import { useNavigation } from '../../hooks/useNavigation';
 import styles from '../../components/styles';
 import { BaseButton, TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import useAuth from '../../hooks/useAuth';
-// import facebookLogin from '../../components/facebookLogin';
+import auth from '@react-native-firebase/auth';
+import { reset2Home } from '../../components/navigationResetActions';
+/*
+ * 요기서는 이메일로만 로그인 가능 카카오나 페북 로그인은 LoginPolicyScreen 확인바람
+*/
 
 const boxMargin = 20;
 const boxWidth = styles.WIDTH - (boxMargin * 2);
@@ -13,11 +17,27 @@ const LoginScreen = () => {
     const navigation = useNavigation();
     const { setAuth, authData } = useAuth();
 
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    const emailLogin = () => {
+        //알아서 형식 처리 네트워킹 줄여야됨
+        auth().signInWithEmailAndPassword(email, password)
+            .then(() => navigation.dispatch(reset2Home))
+            .catch(e => {
+                console.log(e);
+                // invalid email (not match a format)
+                // user-not-found
+                //처리 (토스트메시지정도)
+            })
+    }
+
     const kakao = () => {
         setAuth({
             ...authData,
             loginType: 'kakao'
         })
+        navigation.navigate('LoginPolicyScreen')
     }
 
     const facebook = async () => {
@@ -25,12 +45,12 @@ const LoginScreen = () => {
             ...authData,
             loginType: 'facebook'
         })
-        // facebookLogin();
+        navigation.navigate('LoginPolicyScreen')
     }
-    const signUpPhone = () => {
+    const signUpEmail = () => {
         setAuth({
             ...authData,
-            loginType: 'phone'
+            loginType: 'email'
         })
         navigation.navigate('LoginPolicyScreen')
     }
@@ -44,13 +64,23 @@ const LoginScreen = () => {
             </View>
             {/* 휴대폰번호 로그인 */}
             <View style={{ marginTop: 30, ...styles.shadow, backgroundColor: 'white' }}>
-                <TextInput style={{ width: boxWidth, marginHorizontal: boxMargin, }} placeholder='휴대폰번호 입력' />
-                <TextInput style={{ width: boxWidth, marginHorizontal: boxMargin, }} placeholder='비밀번호 입력' />
+                <TextInput
+                    value={email}
+                    onChangeText={text => setEmail(text)}
+                    style={{ width: boxWidth, marginHorizontal: boxMargin, }} placeholder='이메일 입력' />
+                <TextInput
+                    value={password}
+                    onChangeText={text => setPassword(text)}
+                    style={{ width: boxWidth, marginHorizontal: boxMargin, }} placeholder='비밀번호 입력'
+                />
             </View>
             {/* 로그인 / 비밀번호 찾기 */}
 
             <View style={{ ...styles.shadow, width: boxWidth, height: 50, marginTop: 30, marginHorizontal: boxMargin, backgroundColor: styles.colors.red, }}>
-                <BaseButton style={{ flex: 1, alignItems: 'center', justifyContent: 'center', }}>
+                <BaseButton
+                    onPress={emailLogin}
+                    style={{ flex: 1, alignItems: 'center', justifyContent: 'center', }}
+                >
                     <Text style={{ color: 'white', fontSize: 20 }}>로그인</Text>
                 </BaseButton>
             </View>
@@ -70,12 +100,12 @@ const LoginScreen = () => {
                     style={{ backgroundColor: 'blue', marginBottom: 10, width: boxWidth, marginHorizontal: boxMargin, height: 50, alignItems: 'center', justifyContent: 'center', ...styles.shadow }}>
                     <Text style={{ color: '#fff', fontSize: 16 }}>페이스북으로 시작하기</Text>
                 </TouchableWithoutFeedback>
-                {/* 전화번호 */}
+                {/* 이메일 */}
                 <TouchableWithoutFeedback
                     style={{ alignSelf: 'center', height: 50, justifyContent: 'center', marginBottom: 40 }}
-                    onPress={signUpPhone}
+                    onPress={signUpEmail}
                 >
-                    <Text>휴대폰번호로 가입하기</Text>
+                    <Text>이메일로 가입하기</Text>
                 </TouchableWithoutFeedback>
             </View>
         </View>

@@ -10,7 +10,7 @@ import HomeScreen from './HomeScreen';
 import LoginScreen from './LoginScreen';
 import LoginPolicyScreen from './LoginPolicyScreen';
 import LoginPhoneScreen from './LoginPhoneScreen';
-import LoginPWScreen from './LoginPWScreen';
+import LoginAdditionInfoScreen from './LoginAdditionInfoScreen';
 
 
 
@@ -25,7 +25,7 @@ const LoginStack = createStackNavigator(
         LoginScreen,
         LoginPolicyScreen,
         LoginPhoneScreen,
-        LoginPWScreen,
+        LoginAdditionInfoScreen,
     },
     {
         defaultNavigationOptions: {

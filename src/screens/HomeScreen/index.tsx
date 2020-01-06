@@ -2,15 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { View, Text } from 'react-native'
 import { useNavigation } from '../../hooks/useNavigation';
 import { BaseButton } from 'react-native-gesture-handler';
-import { StackActions, NavigationActions } from 'react-navigation';
 import auth from '@react-native-firebase/auth';
-
-
-const resetAction = StackActions.reset({
-    index: 0,
-    key: null,
-    actions: [NavigationActions.navigate({ routeName: 'LoginStack' })],
-});
+import { reset2Login } from '../../components/navigationResetActions';
 
 const HomeScreen = () => {
     const navigation = useNavigation();
@@ -18,7 +11,12 @@ const HomeScreen = () => {
     const [user, setUser] = useState();
 
     const onAuthStateChanged = (user: any) => {
+        if (!user) {
+            navigation.dispatch(reset2Login);
+            return;
+        }
         setUser(user);
+        console.log(user);
         if (initializing) setInitializing(false);
     }
 
@@ -27,25 +25,28 @@ const HomeScreen = () => {
         return subscriber; // unsubscribe on unmount
     }, []);
 
-    const login = () => {
-        navigation.dispatch(resetAction);
-    }
+    const logOut = () => {
+        auth().signOut()
+            .then(() => navigation.dispatch(reset2Login))
+            .catch(e => {
 
-    if (initializing) return <View style={{ backgroundColor: 'red', flex: 1 }} />;
-
-    if (!user) {
-        login();
+            })
     }
 
     return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <BaseButton
-                onPress={login}
-                style={{ width: 100, height: 100, alignItems: 'center', justifyContent: 'center' }}
-            >
-                <Text>로그아웃 {auth().currentUser}</Text>
-            </BaseButton>
-        </View>
+        initializing
+            ?
+            <View style={{ backgroundColor: 'red', flex: 1 }
+            } />
+            :
+            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                <BaseButton
+                    onPress={logOut}
+                    style={{ width: 100, height: 100, alignItems: 'center', justifyContent: 'center' }}
+                >
+                    <Text>로그아웃 {user.displayName === null ? user.email : user.displayName}</Text>
+                </BaseButton>
+            </View>
     )
 }
 

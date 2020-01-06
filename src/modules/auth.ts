@@ -13,7 +13,7 @@ type AuthAction =
     | ReturnType<typeof remove>
     | ReturnType<typeof facebook>;
 
-type LoginType = 'facebook' | 'kakao' | 'phone' | undefined;
+type LoginType = 'facebook' | 'kakao' | 'email' | undefined;
 
 export type AuthState = {
     email: string | undefined;

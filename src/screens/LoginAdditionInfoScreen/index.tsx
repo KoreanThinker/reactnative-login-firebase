@@ -11,14 +11,7 @@ import auth from '@react-native-firebase/auth';
  * 입력시 계정생성
 */
 
-const resetAction = StackActions.reset({
-    index: 0,
-    key: null,
-    actions: [NavigationActions.navigate({ routeName: 'TabBar' })],
-});
-
-
-const LoginPWScreen = () => {
+const LoginAdditionInfoScreen = () => {
     const navigation = useNavigation();
     const { authData } = useAuth();
 
@@ -39,7 +32,7 @@ const LoginPWScreen = () => {
 
     return (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            {authData.loginType === 'phone' && <View>
+            {authData.loginType === 'email' && <View>
                 <TextInput
                     style={{ width: 300 }} placeholder='이메일 입력'
                     value={email}
@@ -51,12 +44,6 @@ const LoginPWScreen = () => {
                     onChangeText={text => setPw(text)}
                 />
             </View>}
-
-            <TextInput
-                style={{ width: 300 }} placeholder='닉네임 입력'
-                value={nickName}
-                onChangeText={text => setNickName(text)}
-            />
             <TouchableOpacity
                 onPress={makeAcount}
             >
@@ -66,4 +53,4 @@ const LoginPWScreen = () => {
     )
 }
 
-export default LoginPWScreen
+export default LoginAdditionInfoScreen
